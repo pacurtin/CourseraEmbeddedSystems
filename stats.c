@@ -40,9 +40,23 @@ void main() {
 
   /* Other Variable Declarations Go Here */
   /* Statistics and Printing Functions Go Here */
-  
+  print_array(test,SIZE);
   
 
 }
 
 /* Add other Implementation File Code Here */
+void print_array(unsigned char *array, int arrayLenght){
+	printf("\nArray Elements:\n");
+	for(int i=0;i<arrayLenght;i++){
+		printf("%hu",array[i]);
+		if(i!=arrayLenght-1){	//Dont want a comma at end of print out.
+			printf(", ");
+		}
+	}
+	printf("\n");
+}
+
+
+
+

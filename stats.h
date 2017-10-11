@@ -34,7 +34,7 @@
  *
  * @return void
  */
-void print_statistics(unsigned char *array);
+//void print_statistics(unsigned char *array);
  
 /**
  * @brief Given an array of data and a length, prints the array to the screen.
@@ -54,7 +54,7 @@ void print_array(unsigned char *array, int arrayLenght);
  *
  * @return The median value
  */
-unsigned char find_median() (unsigned char *array, int arrayLenght);
+//unsigned char find_median() (unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, returns the mean value
@@ -64,7 +64,7 @@ unsigned char find_median() (unsigned char *array, int arrayLenght);
  *
  * @return The mean value
  */
-unsigned char find_mean() (unsigned char *array, int arrayLenght);
+//unsigned char find_mean() (unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, returns the max value
@@ -74,7 +74,7 @@ unsigned char find_mean() (unsigned char *array, int arrayLenght);
  *
  * @return The max value
  */
- unsigned char find_maximum() (unsigned char *array, int arrayLenght);
+//unsigned char find_maximum() (unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, returns the min value
@@ -84,7 +84,7 @@ unsigned char find_mean() (unsigned char *array, int arrayLenght);
  *
  * @return The min value
  */
-unsigned char find_minimum() (unsigned char *array, int arrayLenght);
+//unsigned char find_minimum() (unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, sorts the array from largest to smallest.
@@ -94,6 +94,6 @@ unsigned char find_minimum() (unsigned char *array, int arrayLenght);
  *
  * @return Sorted array
  */
-unsigned char sort_array() (unsigned char *array, int arrayLenght);
+//unsigned char sort_array() (unsigned char *array, int arrayLenght);
 
 #endif /* __STATS_H__ */
