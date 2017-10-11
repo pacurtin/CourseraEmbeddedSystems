@@ -74,7 +74,7 @@ unsigned char find_mean(unsigned char *array, int arrayLenght);
  *
  * @return The max value
  */
-//unsigned char find_maximum(unsigned char *array, int arrayLenght);
+unsigned char find_maximum(unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, returns the min value
@@ -84,7 +84,7 @@ unsigned char find_mean(unsigned char *array, int arrayLenght);
  *
  * @return The min value
  */
-//unsigned char find_minimum(unsigned char *array, int arrayLenght);
+unsigned char find_minimum(unsigned char *array, int arrayLenght);
  
 /**
  * @brief Given an array of data and a length, sorts the array from largest to smallest. Uses pass by reference array.

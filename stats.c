@@ -29,26 +29,26 @@
 #include "stats.h"
 
 /* Size of the Data Set */
-//#define SIZE (40)
-#define SIZE (9)
+#define SIZE (40)
+//#define SIZE (9)
 
 void main() {
 
-  //unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
-    //                          114, 88,   45,  76, 123,  87,  25,  23,
-      //                        200, 122, 150, 90,   92,  87, 177, 244,
-        //                      201,   6,  12,  60,   8,   2,   5,  67,
-          //                      7,  87, 250, 230,  99,   3, 100,  90};
+  unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
+                              114, 88,   45,  76, 123,  87,  25,  23,
+                              200, 122, 150, 90,   92,  87, 177, 244,
+                              201,   6,  12,  60,   8,   2,   5,  67,
+                                7,  87, 250, 230,  99,   3, 100,  90};
 								
-  unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6, 114};							
+  //unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6, 114};							
 
   print_array(test,SIZE);
   sort_array(test,SIZE);
   print_array(test,SIZE);
   find_median(test,SIZE);
   find_mean(test,SIZE);
-  //find_maximum(test,SIZE);
-  //find_minimum(test,SIZE);
+  find_maximum(test,SIZE);
+  find_minimum(test,SIZE);
 
 }
 
@@ -101,6 +101,24 @@ unsigned char find_median(unsigned char *array, int arrayLenght){
 		
 		printf("Median = %d\n\n",median);
 		return median;
+}
+
+unsigned char find_maximum(unsigned char *array, int arrayLenght){
+	printf("Calculating maximum...\n");
+	unsigned char max = 0;
+	sort_array(array,arrayLenght);
+	max = array[arrayLenght-1];
+	printf("Maximum = %d\n\n", max);
+	return max;
+}
+
+unsigned char find_minimum(unsigned char *array, int arrayLenght){
+	printf("Calculating minimum...\n");
+	unsigned char min = 0;
+	sort_array(array,arrayLenght);
+	min = array[0];
+	printf("Minimum = %d\n\n", min);
+	return min;
 }
 
 
