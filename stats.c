@@ -25,6 +25,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "stats.h"
 
 /* Size of the Data Set */
@@ -41,11 +42,11 @@ void main() {
   /* Other Variable Declarations Go Here */
   /* Statistics and Printing Functions Go Here */
   print_array(test,SIZE);
+  find_median(test,SIZE);
   
 
 }
 
-/* Add other Implementation File Code Here */
 void print_array(unsigned char *array, int arrayLenght){
 	printf("\nArray Elements:\n");
 	for(int i=0;i<arrayLenght;i++){
@@ -55,6 +56,25 @@ void print_array(unsigned char *array, int arrayLenght){
 		}
 	}
 	printf("\n");
+}
+
+unsigned char find_median(unsigned char *array, int arrayLenght){
+		sort_array(array,arrayLenght);
+		print_array(array,arrayLenght);
+		return 1;
+}
+
+//Comparisson function used for quicksort algorithm
+int compare_chars (const void *a, const void *b)
+{
+  const unsigned char *ca = (const unsigned char *) a;
+  const unsigned char *cb = (const unsigned char *) b;
+
+  return (*ca > *cb) - (*ca < *cb);
+}
+
+unsigned char sort_array(unsigned char *array, int arrayLenght){
+	qsort (array, arrayLenght, sizeof (unsigned char), compare_chars);
 }
 
 
