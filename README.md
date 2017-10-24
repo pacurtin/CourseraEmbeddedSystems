@@ -1,3 +1,3 @@
 /* Author: Padraig Curtin
-Submission for week 1 assignment of Coursera Intro to Embedded Systems 
+Submission for week assignments of Coursera Intro to Embedded Systems 
 */
