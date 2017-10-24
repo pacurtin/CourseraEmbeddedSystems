@@ -36,6 +36,7 @@ PLATFORM = HOST
 #CPU =
 #ARCH =
 #SPECS =
+#Hello!
 
 # Compiler Flags and Defines
 CC = gcc
