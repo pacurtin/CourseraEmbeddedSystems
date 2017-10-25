@@ -55,13 +55,11 @@ CFLAGS = -Wall \
 build: $(TARGET).out
 
 $(TARGET).out: $(SOURCES) $(INCLUDES)
-	$(CC) $(SOURCES) -I$(INCLUDES) -o $@
+	$(CC) $(SOURCES) -I $(INCLUDES) -o $@
 
+#Progress so far:
+#gcc -std=c99 -o main.out -v -I../include/common/ -DHOST main.c memory.c
 
-
-.PHONY: clean
-clean:
-	rm -f $(OBJS) $(TARGET).out $(TARGET).map
 
 
 

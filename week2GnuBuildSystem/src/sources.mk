@@ -17,6 +17,4 @@ SOURCES =   ./main.c \
             ./system_msp432p401r.c
 
 # Add your include paths to this variable
-INCLUDES =  ../include/common \
-            ../include/msp432 \
-            ../include/CMSIS
+INCLUDES = ../include/common ../include/msp432 ../include/CMSIS
