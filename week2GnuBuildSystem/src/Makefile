@@ -15,49 +15,76 @@
 # Use: make [TARGET] [PLATFORM-OVERRIDES]
 #
 # Build Targets:
-#      <FILE>.i - Generate the preprocessed output of all c-program implementation files(-E flag)
-#      <FILE>.asm - Generate assembly output of c-program implementation files and the final output executable (-S and objdump)
-#      <FILE>.o - Generate the object file for all c-source files
-#      build - Compile all object files and link into a final executable
-#	   compile-all - Compile all object files, but DO NOT link.
-#      clean - remove all compiled objects, preprocessed outputs, assembly outputs, executable files and build output files.
+#	<FILE>.i - Generate the preprocessed output of all c-program implementation files(-E flag)
+#	<FILE>.asm - Generate assembly output of c-program implementation files and the final output executable (-S and objdump)
+#	<FILE>.o - Generate the object file for all c-source files
+#	build - Compile all object files and link into a final executable
+#	compile-all - Compile all object files, but DO NOT link.
+#	clean - remove all compiled objects, preprocessed outputs, assembly outputs, executable files and build output files.
 #
 # Platform Overrides:
-#      <Put a description of the supported Overrides here
-#
+#	HOST - Builds the app natively for host machine
+#	MSP432 - Builds for MSP432 microcontroller
 #------------------------------------------------------------------------------
 include sources.mk
 
-# Platform Overrides
-PLATFORM = HOST
+# The default name of the output file
+# c1m2 is just for the assignment. main is a better Target name
+TARGET = main
 
-# Architectures Specific Flags
-#LINKER_FILE = ../msp432p401r.lds
-#CPU =
-#ARCH =
-#SPECS =
-#Hello!
+# Put platform in on command line e.g. "make build PLATFORM=HOST"
+ifeq ($(PLATFORM),HOST)
+	# Native compiler
+	CC = gcc
+	# GNU Linker
+	LD = ld
+	SOURCES=$(HOSTSOURCES)
+	LDFLAGS =
+	#CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
+	CFLAGS = -std=c99 -v
+	#CPPFLAGs =
+else
+	# Architectures Specific Flags
+	LINKER_FILE = ../msp432p401r.lds
+	CPU = cortex-m0plus
+	ARCH = thumb
+	SPECS = nosys.specs
 
-# Compiler Flags and Defines
-CC = gcc
-LD = ld
-TARGET = demo
-LDFLAGS =
-CFLAGS = -Wall \
-         -Werror \
-         -g \
-         -O0 \
-         -std=c99
-#CPPFLAGs =
+	CC = arm-none-eabi-gcc
+	LD = arm-none-eabi-ld
+	SOURCES=$(MSP432SOURCES)
+	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
+	CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -Wall
+	#CPPFLAGs =
+endif
 
+%.i : $(SOURCES)
+	$(CC) -E $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+
+%.o : $(SOURCES)
+	$(CC) -c $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+
+%.asm : $(SOURCES)
+	$(CC) -S $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+
+
+.PHONY: compile-all
+compile-all: $(TARGET).o
 
 .PHONY: build
 build: $(TARGET).out
 
-$(TARGET).out: $(SOURCES) $(INCLUDES)
-	$(CC) $(SOURCES) -I $(INCLUDES) -o $@
+$(TARGET).out: $(SOURCES)
+	$(CC) $(CFLAGS) -o $(TARGET).out -I../include/common -D$(PLATFORM) $(SOURCES)
 
-#Progress so far:
+.PHONY: clean
+clean:
+	rm -f *.out *.map *.i *.asm *.o
+
+print-%  : ; @echo $* = $($*)
+
+
+#This works:
 #gcc -std=c99 -o main.out -v -I../include/common/ -DHOST main.c memory.c
 
 
