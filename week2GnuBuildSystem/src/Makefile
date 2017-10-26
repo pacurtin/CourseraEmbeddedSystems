@@ -48,7 +48,7 @@ else
 	# Architectures Specific Flags
 	LINKER_FILE = ../msp432p401r.lds
 	CPU = cortex-m4
-	ARCH = arm
+	ARCH = thumb
 	SPECS = nosys.specs
 
 	CC = arm-none-eabi-gcc
@@ -77,12 +77,14 @@ compile-all: $(TARGET).o
 build: $(TARGET).out
 
 $(TARGET).out: $(SOURCES)
-	$(CC) $(CFLAGS) -o $(TARGET).out $(INCLUDES) -D$(PLATFORM) $(SOURCES)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out $(INCLUDES) -D$(PLATFORM) $(SOURCES)
 
 .PHONY: clean
 clean:
 	rm -f *.out *.map *.i *.asm *.o
 
+#Helps debug make file
+#E.g type "make print-TARGET"
 print-%  : ; @echo $* = $($*)
 
 
