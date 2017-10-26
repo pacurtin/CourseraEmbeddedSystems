@@ -10,9 +10,9 @@
 #*****************************************************************************
 
 #------------------------------------------------------------------------------
-# Makefile for both native building and cross compilation to the MSP432
+# Makefile for cross compilation to the MSP432
 #
-# Use: make [TARGET] [PLATFORM-OVERRIDES]
+# Use: make [TARGET]
 #
 # Build Targets:
 #	<FILE>.i - Generate the preprocessed output of all c-program implementation files(-E flag)
@@ -22,43 +22,23 @@
 #	compile-all - Compile all object files, but DO NOT link.
 #	clean - remove all compiled objects, preprocessed outputs, assembly outputs, executable files and build output files.
 #
-# Platform Overrides:
-#	HOST - Builds the app natively for host machine
-#	MSP432 - Builds for MSP432 microcontroller
 #------------------------------------------------------------------------------
 include sources.mk
 
 # The default name of the output file
 # c1m2 is just for the assignment. main is a better Target name
-TARGET = clm2
+TARGET = clm3
+PLATFORM = MSP432
+LINKER_FILE = msp432p401r.lds
+CPU = cortex-m4
+ARCH = thumb
+SPECS = nosys.specs
 
-# Put platform in on command line e.g. "make build PLATFORM=HOST"
-ifeq ($(PLATFORM),HOST)
-	# Native compiler
-	CC = gcc
-	# GNU Linker
-	LD = ld
-	SOURCES=$(HOSTSOURCES)
-	INCLUDES=$(HOSTINCLUDES)
-	LDFLAGS = -Xlinker -Map=$(TARGET).map
-	CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
-	CPPFLAGS = -MD
-else
-	# Architectures Specific Flags
-	PLATFORM = MSP432
-	LINKER_FILE = ../msp432p401r.lds
-	CPU = cortex-m4
-	ARCH = thumb
-	SPECS = nosys.specs
-
-	CC = arm-none-eabi-gcc
-	LD = arm-none-eabi-ld
-	SOURCES=$(MSP432SOURCES)
-	INCLUDES=$(MSP432INCLUDES)
-	LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
-	CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
-	CPPFLAGS = -MD
-endif
+CC = arm-none-eabi-gcc
+LD = arm-none-eabi-ld
+LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
+CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
+CPPFLAGS = -MD
 
 %.i : $(SOURCES)
 	$(CC) -E $(CPPFLAGS) $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
@@ -80,17 +60,18 @@ build: $(TARGET).out
 $(TARGET).out: compile-all
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out $(INCLUDES) -D$(PLATFORM) $(SOURCES)
 
+.PHONY: nm
+nm: build
+	rm -f nmOutput.txt
+	nm -C -l -n -S -s --special-syms --synthetic  clm3.out > nmOutput.txt
+
 .PHONY: clean
 clean:
-	rm -f *.out *.map *.i *.asm *.o *.d
+	rm -f *.out *.map *.i *.asm *.o *.d nmOutput.txt
 
 #Helps debug make file
 #E.g type "make print-TARGET"
 print-%  : ; @echo $* = $($*)
-
-
-#This works:
-#gcc -std=c99 -o main.out -v -I../include/common/ -DHOST main.c memory.c
 
 
 
