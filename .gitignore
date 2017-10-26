@@ -1,7 +1,9 @@
 .idea/
 *.o
 *.asm
+*.s
 *.i
 *.map
 *.out
 *.d
+nmOutput.txt
