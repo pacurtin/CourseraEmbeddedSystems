@@ -18,6 +18,7 @@ MSP432SOURCES = main.c \
 	startup_msp432p401r_gcc.c \
 	system_msp432p401r.c
 
-# Add your include paths to this variable
-# Doesn't work. Adding directly.
-# INCLUDES = -I../include/common -I../include/msp432 -I../include/CMSIS
+# Include paths
+HOSTINCLUDES = -I../include/common
+
+MSP432INCLUDES = -I../include/common -I../include/msp432 -I../include/CMSIS

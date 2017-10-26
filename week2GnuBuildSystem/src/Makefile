@@ -39,6 +39,7 @@ ifeq ($(PLATFORM),HOST)
 	# GNU Linker
 	LD = ld
 	SOURCES=$(HOSTSOURCES)
+	INCLUDES=$(HOSTINCLUDES)
 	LDFLAGS =
 	#CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
 	CFLAGS = -std=c99 -v
@@ -46,26 +47,27 @@ ifeq ($(PLATFORM),HOST)
 else
 	# Architectures Specific Flags
 	LINKER_FILE = ../msp432p401r.lds
-	CPU = cortex-m0plus
-	ARCH = thumb
+	CPU = cortex-m4
+	ARCH = arm
 	SPECS = nosys.specs
 
 	CC = arm-none-eabi-gcc
 	LD = arm-none-eabi-ld
 	SOURCES=$(MSP432SOURCES)
+	INCLUDES=$(MSP432INCLUDES)
 	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
 	CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -Wall
 	#CPPFLAGs =
 endif
 
 %.i : $(SOURCES)
-	$(CC) -E $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+	$(CC) -E $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
 
 %.o : $(SOURCES)
-	$(CC) -c $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+	$(CC) -c $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
 
 %.asm : $(SOURCES)
-	$(CC) -S $(CFLAGS) -o $@ -I../include/common -D$(PLATFORM) $<
+	$(CC) -S $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
 
 
 .PHONY: compile-all
@@ -75,7 +77,7 @@ compile-all: $(TARGET).o
 build: $(TARGET).out
 
 $(TARGET).out: $(SOURCES)
-	$(CC) $(CFLAGS) -o $(TARGET).out -I../include/common -D$(PLATFORM) $(SOURCES)
+	$(CC) $(CFLAGS) -o $(TARGET).out $(INCLUDES) -D$(PLATFORM) $(SOURCES)
 
 .PHONY: clean
 clean:
