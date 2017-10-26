@@ -30,7 +30,7 @@ include sources.mk
 
 # The default name of the output file
 # c1m2 is just for the assignment. main is a better Target name
-TARGET = main
+TARGET = clm2
 
 # Put platform in on command line e.g. "make build PLATFORM=HOST"
 ifeq ($(PLATFORM),HOST)
@@ -40,12 +40,13 @@ ifeq ($(PLATFORM),HOST)
 	LD = ld
 	SOURCES=$(HOSTSOURCES)
 	INCLUDES=$(HOSTINCLUDES)
-	LDFLAGS =
+	LDFLAGS = -Xlinker -Map=$(TARGET).map
 	#CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
 	CFLAGS = -std=c99 -v
 	#CPPFLAGs =
 else
 	# Architectures Specific Flags
+	PLATFORM = MSP432
 	LINKER_FILE = ../msp432p401r.lds
 	CPU = cortex-m4
 	ARCH = thumb
@@ -55,7 +56,7 @@ else
 	LD = arm-none-eabi-ld
 	SOURCES=$(MSP432SOURCES)
 	INCLUDES=$(MSP432INCLUDES)
-	LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
+	LDFLAGS = -Wl, -Map=$(TARGET).map -T $(LINKER_FILE)
 	CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -Wall
 	#CPPFLAGs =
 endif
