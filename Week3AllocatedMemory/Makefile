@@ -37,7 +37,7 @@ SPECS = nosys.specs
 CC = arm-none-eabi-gcc
 LD = arm-none-eabi-ld
 LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
-CFLAGS = -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
+CFLAGS = -save-temps -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
 CPPFLAGS = -MD
 
 %.i : $(SOURCES)
