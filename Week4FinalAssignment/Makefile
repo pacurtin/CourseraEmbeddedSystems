@@ -10,7 +10,7 @@
 #*****************************************************************************
 
 #------------------------------------------------------------------------------
-# Makefile for cross compilation to the MSP432
+# Makefile for both native building and cross compilation to the MSP432
 #
 # Use: make [TARGET]
 #
@@ -20,25 +20,44 @@
 #	<FILE>.o - Generate the object file for all c-source files
 #	build - Compile all object files and link into a final executable
 #	compile-all - Compile all object files, but DO NOT link.
+#	nm - Performs a build and produces an nm memory report
 #	clean - remove all compiled objects, preprocessed outputs, assembly outputs, executable files and build output files.
 #
+# Platform Overrides:
+#	HOST - Builds the app natively for host machine
+#	MSP432 - Builds for MSP432 microcontroller
 #------------------------------------------------------------------------------
 include sources.mk
 
 # The default name of the output file
-# c1m2 is just for the assignment. main is a better Target name
-TARGET = clm3
-PLATFORM = MSP432
-LINKER_FILE = msp432p401r.lds
-CPU = cortex-m4
-ARCH = thumb
-SPECS = nosys.specs
+TARGET = clm4
 
-CC = arm-none-eabi-gcc
-LD = arm-none-eabi-ld
-LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
-CFLAGS = -save-temps -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
-CPPFLAGS = -MD
+# Put platform in on command line e.g. "make build PLATFORM=HOST"
+ifeq ($(PLATFORM),HOST)
+	# Native compiler
+	CC = gcc
+	# GNU Linker
+	LD = ld
+	SOURCES=$(HOSTSOURCES)
+	INCLUDES=$(HOSTINCLUDES)
+	LDFLAGS = -Xlinker -Map=$(TARGET).map
+	CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
+	CPPFLAGS = -MD
+else
+	PLATFORM = MSP432
+	LINKER_FILE = msp432p401r.lds
+	CPU = cortex-m4
+	ARCH = thumb
+	SPECS = nosys.specs
+
+	CC = arm-none-eabi-gcc
+	LD = arm-none-eabi-ld
+	SOURCES=$(MSP432SOURCES)
+    INCLUDES=$(MSP432INCLUDES)
+	LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
+	CFLAGS = -save-temps -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
+	CPPFLAGS = -MD
+endif
 
 %.i : $(SOURCES)
 	$(CC) -E $(CPPFLAGS) $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
@@ -67,7 +86,7 @@ nm: build
 
 .PHONY: clean
 clean:
-	rm -f *.out *.map *.i *.asm *.o *.d nmOutput.txt
+	rm -f *.out *.map *.i *.asm *.s *.o *.d nmOutput.txt
 
 #Helps debug make file
 #E.g type "make print-TARGET"

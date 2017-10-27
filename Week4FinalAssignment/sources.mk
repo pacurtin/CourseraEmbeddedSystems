@@ -9,16 +9,22 @@
 #
 #*****************************************************************************
 
-HOSTSOURCES = main.c \
-	memory.c
+HOSTSOURCES = src/main.c \
+	src/memory.c \
+	src/course1.c \
+	src/data.c \
+	src/stats.c\
 
-MSP432SOURCES = main.c \
-	memory.c \
-	interrupts_msp432p401r_gcc.c \
-	startup_msp432p401r_gcc.c \
-	system_msp432p401r.c
+MSP432SOURCES = src/main.c \
+	src/memory.c \
+	src/course1.c \
+	src/data.c \
+	src/stats.c\
+	src/interrupts_msp432p401r_gcc.c \
+	src/startup_msp432p401r_gcc.c \
+	src/system_msp432p401r.c
 
 # Include paths
-HOSTINCLUDES = -I../include/common
+HOSTINCLUDES = -Iinclude/common
 
-MSP432INCLUDES = -I../include/common -I../include/msp432 -I../include/CMSIS
+MSP432INCLUDES = -Iinclude/common -Iinclude/msp432 -Iinclude/CMSIS
