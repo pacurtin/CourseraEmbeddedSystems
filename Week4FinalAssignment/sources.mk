@@ -9,12 +9,11 @@
 #
 #*****************************************************************************
 
-HOSTSOURCES = src/main.c
-
+HOSTSOURCES = src/main.c \
+	src/stats.c
 	#src/memory.c \
 	#src/course1.c \
 	#src/data.c \
-	#src/stats.c\
 
 MSP432SOURCES = src/main.c \
 	src/memory.c \

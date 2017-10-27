@@ -18,12 +18,15 @@
  */
 //#include "course1.h"
 #include <stdio.h>
+#include "stats.h"
 
 /* Simple one line main. To run tests use -DCOURSE1 compile time switch */
 int main(void) {
 
   #ifdef COURSE1
 	printf("-DCOURSE1 flag set\n");
+	unsigned char test[9] = {34, 201, 190, 154, 8, 194, 2, 6, 114};
+	print_array(test,9);
 	//course1();
   #endif
 
