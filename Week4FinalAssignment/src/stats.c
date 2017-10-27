@@ -24,8 +24,9 @@
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+#include "platform.h"
+#include <stdlib.h>		//may need to remove this later
 #include "stats.h"
 
 /* Size of the Data Set */
