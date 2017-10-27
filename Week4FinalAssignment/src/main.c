@@ -19,17 +19,15 @@
 //#include "course1.h"
 #include <stdio.h>
 
-
 /* Simple one line main. To run tests use -DCOURSE1 compile time switch */
 int main(void) {
 
   #ifdef COURSE1
-    //course1();
-    printf("Hello from course 1");
+	printf("-DCOURSE1 flag set\n");
+	//course1();
   #endif
 
-	printf("Main ran. Did it say hello?");
-
+	printf("Main finished. Exiting.\n");
   return 0;
 }
 
