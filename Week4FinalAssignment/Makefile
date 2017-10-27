@@ -2,10 +2,10 @@
 # Copyright (C) 2017 by Alex Fosdick - University of Colorado
 #
 # Redistribution, modification or use of this software in source or binary
-# forms is permitted as long as the files maintain this copyright. Users are 
+# forms is permitted as long as the files maintain this copyright. Users are
 # permitted to modify this and use it to learn about the field of embedded
 # software. Alex Fosdick and the University of Colorado are not liable for any
-# misuse of this material. 
+# misuse of this material.
 #
 #*****************************************************************************
 
@@ -33,18 +33,7 @@ include sources.mk
 TARGET = clm4
 
 # Put platform in on command line e.g. "make build PLATFORM=HOST"
-ifeq ($(PLATFORM),HOST)
-	# Native compiler
-	CC = gcc
-	# GNU Linker
-	LD = ld
-	SOURCES=$(HOSTSOURCES)
-	INCLUDES=$(HOSTINCLUDES)
-	LDFLAGS = -Xlinker -Map=$(TARGET).map
-	CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
-	CPPFLAGS = -MD
-else
-	PLATFORM = MSP432
+ifeq ($(PLATFORM),MSP432)
 	LINKER_FILE = msp432p401r.lds
 	CPU = cortex-m4
 	ARCH = thumb
@@ -57,7 +46,22 @@ else
 	LDFLAGS = -Xlinker -Map=$(TARGET).map -T $(LINKER_FILE)
 	CFLAGS = -save-temps -mcpu=$(CPU) -m$(ARCH) --specs=$(SPECS) -march=armv7e-m -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wall -Werror -g -O0 -std=c99
 	CPPFLAGS = -MD
+else
+	PLATFORM = HOST
+	# Native compiler
+	CC = gcc
+	# GNU Linker
+	LD = ld
+	SOURCES=$(HOSTSOURCES)
+	INCLUDES=$(HOSTINCLUDES)
+	LDFLAGS = -Xlinker -Map=$(TARGET).map
+	CFLAGS = -Wall -Werror -g -O0 -std=c99 -v
+	CPPFLAGS = -MD
 endif
+
+.PHONY: clean
+clean:
+	rm -f *.out *.map *.i *.asm *.s *.o *.d nmOutput.txt
 
 %.i : $(SOURCES)
 	$(CC) -E $(CPPFLAGS) $(CFLAGS) -o $@ $(INCLUDES) -D$(PLATFORM) $<
@@ -84,13 +88,10 @@ nm: build
 	rm -f nmOutput.txt
 	nm -C -l -n -S -s --special-syms --synthetic  clm3.out > nmOutput.txt
 
-.PHONY: clean
-clean:
-	rm -f *.out *.map *.i *.asm *.s *.o *.d nmOutput.txt
 
 #Helps debug make file
 #E.g type "make print-TARGET"
-print-%  : ; @echo $* = $($*)
+#print-%  : ; @echo $* = $($*)
 
 
 
