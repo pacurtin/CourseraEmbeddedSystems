@@ -21,10 +21,10 @@
 #include "course1.h"
 #include "platform.h"
 #include "memory.h"
-//#include "data.h"
+#include "data.h"
 #include "stats.h"
 
-/*int8_t test_data1() {
+int8_t test_data1() {
   uint8_t * ptr;
   int32_t num = -4096;
   uint32_t digits;
@@ -40,7 +40,7 @@
 
   digits = my_itoa( num, ptr, BASE_16);   
   value = my_atoi( ptr, digits, BASE_16);
-  #ifdef VERBOSE
+  #ifdef VERBOSEDATA
   PRINTF("  Initial number: %d\n", num);
   PRINTF("  Final Decimal number: %d\n", value);
   #endif
@@ -69,7 +69,7 @@ int8_t test_data2() {
 
   digits = my_itoa( num, ptr, BASE_10);
   value = my_atoi( ptr, digits, BASE_10);
-  #ifdef VERBOSE
+  #ifdef VERBOSEDATA
   PRINTF("  Initial Decimal number: %d\n", num);
   PRINTF("  Final Decimal number: %d\n", value);
   #endif
@@ -80,7 +80,7 @@ int8_t test_data2() {
     return TEST_ERROR;
   }
   return TEST_NO_ERROR;
-}*/
+}
 
 int8_t test_memmove1() {
   uint8_t i;
@@ -90,15 +90,20 @@ int8_t test_memmove1() {
   uint8_t * ptrb;
 
   PRINTF("test_memmove1() - NO OVERLAP\n");
-  set = (uint8_t*) reserve_words( MEM_SET_SIZE_W );
+  //word = 32 bytes
+  //we want to reserve 8 words
+  set = (uint8_t*) reserve_words( MEM_SET_SIZE_W );	//set is a pointer to mem location with 32*8 = 256 bytes.
 
   if (! set ) 
   {
     return TEST_ERROR;
   }
-  
-  ptra = &set[0];
-  ptrb = &set[16];
+
+  // remember printouts hex not decimal
+  ptra = &set[0];//1st byte
+  //PRINTF("\nptra:\n");
+  //printf("%p\n", ptra);
+  ptrb = &set[16];//16th byte
   
   /* Initialize the set to test values */
   for( i = 0; i < MEM_SET_SIZE_B; i++)
@@ -107,7 +112,7 @@ int8_t test_memmove1() {
   }
 
   print_array(set, MEM_SET_SIZE_B);
-  my_memmove(ptra, ptrb, TEST_MEMMOVE_LENGTH);
+  my_memmove(ptra, ptrb, TEST_MEMMOVE_LENGTH); //move 16 bytes from a to b
   print_array(set, MEM_SET_SIZE_B);
 
   for (i = 0; i < TEST_MEMMOVE_LENGTH; i++)
@@ -121,6 +126,7 @@ int8_t test_memmove1() {
   free_words( (uint32_t*)set );
   return ret;
 }
+
 
 int8_t test_memmove2() {
   uint8_t i;
@@ -139,7 +145,7 @@ int8_t test_memmove2() {
   ptra = &set[0];
   ptrb = &set[8];
 
-  /* Initialize the set to test values */
+  // Initialize the set to test values
   for( i = 0; i < MEM_SET_SIZE_B; i++) {
     set[i] = i;
   }
@@ -177,7 +183,7 @@ int8_t test_memmove3() {
   ptra = &set[8];
   ptrb = &set[0];
 
-  /* Initialize the set to test values */
+  // Initialize the set to test values
   for( i = 0; i < MEM_SET_SIZE_B; i++)
   {
     set[i] = i;
@@ -201,7 +207,7 @@ int8_t test_memmove3() {
 
 }
 
-/*int8_t test_memcopy() {
+int8_t test_memcopy() {
   uint8_t i;
   int8_t ret = TEST_NO_ERROR;
   uint8_t * set;
@@ -239,7 +245,7 @@ int8_t test_memmove3() {
   return ret;
 }
 
-int8_t test_memset() 
+int8_t test_memset()
 {
   uint8_t i;
   uint8_t ret = TEST_NO_ERROR;
@@ -319,7 +325,7 @@ int8_t test_reverse()
 
   free_words( (uint32_t*)copy );
   return ret;
-}*/
+}
 
 void course1(void) 
 {
@@ -327,16 +333,16 @@ void course1(void)
   int8_t failed = 0;
   int8_t results[TESTCOUNT];
 
-  //results[0] = test_data1();
-  //results[1] = test_data2();
-  results[0] = test_memmove1();
-  results[1] = test_memmove2();
-  results[2] = test_memmove3();
-  //results[5] = test_memcopy();
-  //results[6] = test_memset();
-  //results[7] = test_reverse();
+  results[2] = test_memmove1();
+  results[3] = test_memmove2();
+  results[4] = test_memmove3();
+  results[5] = test_memcopy();
+  results[6] = test_memset();
+  results[7] = test_reverse();
+  results[0] = test_data1();
+  results[1] = test_data2();
 
-  for ( i = 0; i < TESTCOUNT; i++) 
+  for ( i = 0; i < TESTCOUNT; i++)
   {
     failed += results[i];
   }

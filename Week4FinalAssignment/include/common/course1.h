@@ -29,7 +29,9 @@
 #define TEST_MEMMOVE_LENGTH (16)
 #define TEST_ERROR          (1)
 #define TEST_NO_ERROR       (0)
-#define TESTCOUNT           (3)
+#define TESTCOUNT           (8)
+#define BASE_16            (16)
+#define BASE_10            (10)
 
 /**
  * @brief function to run course1 materials

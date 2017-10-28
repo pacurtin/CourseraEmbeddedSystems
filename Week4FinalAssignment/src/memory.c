@@ -23,6 +23,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "memory.h"
+#include "platform.h"
 
 
 /***********************************************************
@@ -51,15 +52,70 @@ void clear_all(char * ptr, unsigned int size){
   set_all(ptr, 0, size);
 }
 
-void free_words(uint32_t * src){
-	free(src);
-}
 
 uint32_t * reserve_words(size_t length){
 	return malloc(sizeof(uint32_t)*length);
 }
 
-uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
-	uint8_t * a = malloc(8);
-	return a;
+void free_words(uint32_t * src){
+	free(src);
+}
+
+uint8_t * my_memcopy(uint8_t * src, uint8_t * dst, size_t length){
+	uint8_t *origDst = dst;
+	for(int i = 0; i<length; i++){
+		*dst= *src;
+		src++;
+		dst++;
+	}
+	return origDst;
+}
+
+uint8_t *my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+	uint8_t *origDst = dst;
+	uint8_t tempArray[length]; //need to temporarily store bytes
+	for(int i = 0; i<length; i++){
+		tempArray[i] = *src;
+		src++;
+	}
+
+	for(int i = 0; i<length; i++){
+		*dst= tempArray[i];
+		dst++;
+	}
+	return origDst;
+}
+
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+	uint8_t *origSrc = src;
+	for(int i = 0; i<length; i++){
+		*src=value;
+		src++;
+	}
+	return origSrc;
+}
+
+uint8_t * my_memzero(uint8_t * src, size_t length){
+	uint8_t *origSrc = src;
+	for(int i = 0; i<length; i++){
+		*src=0;
+		src++;
+	}
+	return origSrc;
+}
+
+uint8_t * my_reverse(uint8_t * src, size_t length){
+
+	uint8_t *origSrc = src;
+	uint8_t *end = src + (sizeof(uint8_t)*(length-1));	//pointer to last byte
+
+	uint8_t temp = 0;
+	for(int i = 0; i<length/2; i++){
+		temp=*src;
+		*src=*end;
+		*end=temp;
+		src++;
+		end--;
+	}
+	return origSrc;
 }

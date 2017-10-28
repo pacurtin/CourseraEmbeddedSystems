@@ -16,8 +16,6 @@
  * @date April 1 2017
  *
  */
-#include <stdio.h>
-#include <stdint.h>
 #include "stats.h"
 #include "course1.h"
 
