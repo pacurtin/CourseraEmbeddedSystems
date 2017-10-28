@@ -21,10 +21,10 @@
 #include "course1.h"
 #include "platform.h"
 #include "memory.h"
-#include "data.h"
+//#include "data.h"
 #include "stats.h"
 
-int8_t test_data1() {
+/*int8_t test_data1() {
   uint8_t * ptr;
   int32_t num = -4096;
   uint32_t digits;
@@ -80,7 +80,7 @@ int8_t test_data2() {
     return TEST_ERROR;
   }
   return TEST_NO_ERROR;
-}
+}*/
 
 int8_t test_memmove1() {
   uint8_t i;
@@ -201,7 +201,7 @@ int8_t test_memmove3() {
 
 }
 
-int8_t test_memcopy() {
+/*int8_t test_memcopy() {
   uint8_t i;
   int8_t ret = TEST_NO_ERROR;
   uint8_t * set;
@@ -218,7 +218,7 @@ int8_t test_memcopy() {
   ptra = &set[0];
   ptrb = &set[16];
 
-  /* Initialize the set to test values */
+  // Initialize the set to test values
   for( i = 0; i < MEM_SET_SIZE_B; i++) {
     set[i] = i;
   }
@@ -256,7 +256,7 @@ int8_t test_memset()
   ptra = &set[0];
   ptrb = &set[16];
 
-  /* Initialize the set to test values */
+  // Initialize the set to test values
   for( i = 0; i < MEM_SET_SIZE_B; i++) 
   {
     set[i] = i;
@@ -268,7 +268,7 @@ int8_t test_memset()
   my_memzero(ptrb, MEM_ZERO_LENGTH);
   print_array(set, MEM_SET_SIZE_B);
   
-  /* Validate Set & Zero Functionality */
+  // Validate Set & Zero Functionality
   for (i = 0; i < MEM_ZERO_LENGTH; i++)
   {
     if (set[i] != 0xFF)
@@ -319,7 +319,7 @@ int8_t test_reverse()
 
   free_words( (uint32_t*)copy );
   return ret;
-}
+}*/
 
 void course1(void) 
 {
@@ -327,14 +327,14 @@ void course1(void)
   int8_t failed = 0;
   int8_t results[TESTCOUNT];
 
-  results[0] = test_data1();
-  results[1] = test_data2();
-  results[2] = test_memmove1();
-  results[3] = test_memmove2();
-  results[4] = test_memmove3();
-  results[5] = test_memcopy();
-  results[6] = test_memset();
-  results[7] = test_reverse();
+  //results[0] = test_data1();
+  //results[1] = test_data2();
+  results[0] = test_memmove1();
+  results[1] = test_memmove2();
+  results[2] = test_memmove3();
+  //results[5] = test_memcopy();
+  //results[6] = test_memset();
+  //results[7] = test_reverse();
 
   for ( i = 0; i < TESTCOUNT; i++) 
   {

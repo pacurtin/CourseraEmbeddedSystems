@@ -20,7 +20,10 @@
  * @date April 1 2017
  *
  */
+#include <stdint.h>
+#include <stdlib.h>
 #include "memory.h"
+
 
 /***********************************************************
  Function Definitions
@@ -48,3 +51,15 @@ void clear_all(char * ptr, unsigned int size){
   set_all(ptr, 0, size);
 }
 
+void free_words(uint32_t * src){
+	free(src);
+}
+
+uint32_t * reserve_words(size_t length){
+	return malloc(sizeof(uint32_t)*length);
+}
+
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+	uint8_t * a = malloc(8);
+	return a;
+}

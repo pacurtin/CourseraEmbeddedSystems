@@ -90,4 +90,41 @@ void set_all(char * ptr, char value, unsigned int size);
  */
 void clear_all(char * ptr, unsigned int size);
 
+/**
+ * @brief Move a length of bytes to another location
+ *
+ * Takes two byte pointers (one source and one destination) and a length of bytes to move from the source location to the destination.
+ * Handle overlap of source and destination. Copy occurs with no data corruption.
+ * All operations performed using pointer arithmetic, not array indexing
+ * Returns a pointer to the destination (dst).
+ *
+ * @param ptr src Pointer to data source
+ * @param ptr dst Pointer to data destination
+ * @param size_t Number of bytes being transferred
+ *
+ * @return uint8_t ptr to dst
+ */
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length);
+
+
+/**
+ * @brief Take number of words to allocate in dynamic memory
+ *
+ * @param size_t Number of words
+ *
+ * @return Pointer to memory if successful, or a Null Pointer if not successful
+ */
+uint32_t * reserve_words(size_t length);
+
+/**
+ * @brief Free a section of dynamic memory
+ *
+ * @param src Pointer to memory location
+ *
+ * @return void
+ */
+
+void free_words(uint32_t * src);
+
+
 #endif /* __MEMORY_H__ */

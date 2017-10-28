@@ -10,9 +10,9 @@
 #*****************************************************************************
 
 HOSTSOURCES = src/main.c \
-	src/stats.c
-	#src/memory.c \
-	#src/course1.c \
+	src/stats.c \
+	src/memory.c \
+	src/course1.c
 	#src/data.c \
 
 MSP432SOURCES = src/main.c \

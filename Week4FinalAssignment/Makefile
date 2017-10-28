@@ -45,7 +45,7 @@ CPPFLAGS = -MD -DCOURSE1 -DVERBOSE
 .PHONY: build
 build: $(TARGET).out
 
-$(TARGET).out:
+$(TARGET).out: clean
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o $(TARGET).out $(INCLUDES) -D$(PLATFORM) $(SOURCES)
 
 .PHONY: clean
